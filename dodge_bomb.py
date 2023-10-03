@@ -11,6 +11,7 @@ delta = {
     pg.K_RIGHT : (+5,0)
     }
 
+
 def check_bound(obj_rct: pg.Rect):
     yoko, tate = True, True
     if obj_rct.left < 0 or WIDTH < obj_rct.right: 
@@ -19,6 +20,11 @@ def check_bound(obj_rct: pg.Rect):
         tate = False
     return yoko, tate
 
+
+def bomb_big():
+    return
+
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -26,6 +32,7 @@ def main():
     #こうかとん
     kk_img = pg.image.load("ex02/fig/3.png")
     
+
     #演習1方向転換
     sum_mv = [0, 0]
     kk_img_l = kk_img
@@ -55,15 +62,19 @@ def main():
     kk_rct.center = (900, 400)
 
     #ばくだん
-    bd_img = pg.Surface((20,20))
-    bd_img.set_colorkey((0,0,0))
-    pg.draw.circle(bd_img , (255,0,0),(10,10),10)
+
+    bd_imgs = []
+    for r in range(1,11):
+        bd_img = pg.Surface((20*r,20*r))
+        bd_img.set_colorkey((0,0,0))
+        pg.draw.circle(bd_img , (255,0,0),(10*r,10*r),10*r)
     bd_rct = bd_img.get_rect()
     x,y = random.randint(0,WIDTH),random.randint(0,HEIGHT)
     bd_rct.center = (x,y)
     vx , vy = +5,+5
     clock = pg.time.Clock()
     tmr = 0
+
 
     while True:
         for event in pg.event.get():
@@ -88,6 +99,7 @@ def main():
         kk_img = muki[tuple(sum_mv)]
         screen.blit(kk_img, kk_rct)
         screen.blit(kk_img,kk_rct)
+
 
         bd_rct.move_ip(vx,vy)
         yoko,tate = check_bound(bd_rct)
